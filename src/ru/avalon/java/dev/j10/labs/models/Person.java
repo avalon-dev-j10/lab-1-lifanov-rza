@@ -1,70 +1,152 @@
 package ru.avalon.java.dev.j10.labs.models;
 
+import ru.avalon.java.dev.j10.labs.commons.Address;
+
+import java.text.Format;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
- * РџСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ Рѕ С‡РµР»РѕРІРµРєРµ.
+ * Представление о человеке.
  * <p>
- * РЎ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ Р·Р°РґР°РЅРёСЏ С‡РµР»РѕРІРµРє РїСЂРµРґСЃС‚Р°РІР»СЏРµС‚СЃСЏ РєР°Рє СЃСѓС‰РЅРѕСЃС‚СЊ,
- * РЅР°РґРµР»С‘РЅРЅР°СЏ:
+ * С точки зрения задания человек представляется как сущность,
+ * наделённая:
  * <ol>
- *     <li>РёРјРµРЅРµРј;
- *     <li>РїР°СЃРїРѕСЂС‚РЅС‹РјРё РґР°РЅРЅС‹РјРё;
- *     <li>РїСЂРѕРїРёСЃРєРѕР№ РїРѕ РјРµСЃС‚Сѓ Р¶РёС‚РµР»СЊСЃС‚РІР°.
+ * <li>именем;
+ * <li>паспортными данными;
+ * <li>пропиской по месту жительства.
  * </ol>
  */
 public class Person {
+    private String fullName;
+    private String name;
+    private String surname;
+    private String patronymic;
+    private String secondName;
+    private Address address;
+    private Passport passport;
 
-    /*
-     * TODO(РЎС‚СѓРґРµРЅС‚): РЎРѕР·РґР°Р№С‚Рµ РєР»Р°СЃСЃ Address.
-     *
-     * 1. Р”РѕР±Р°РІС‚Рµ С„Р°Р№Р» РІ РїР°РєРµС‚ ru.avalon.java.dev.j10.labs.commons.
-     *
-     * 2. РЎРѕР·РґР°Р№С‚Рµ РєР»Р°СЃСЃ, РІРёРґРёРјС‹Р№ РёР· РїР°РєРµС‚Р°. РџРѕРґСѓРјР°Р№С‚Рµ Рѕ С‚РѕРј
-     *    РљР°РєРѕРµ РёРјСЏ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РєР»Р°СЃСЃ, РµСЃР»Рё РѕРЅ РѕР±СЉСЏРІР»РµРЅРЅ РІ СЌС‚РѕРј
-     *    С„Р°Р№Р»Рµ.
-     *
-     * 3. РџРѕРґСѓРјР°Р№С‚Рµ РЅР°Рґ С‚РµРј, РєР°РєРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ РґРѕР»Р¶РµРЅС‹ Р±С‹С‚СЊ
-     *    РѕРїСЂРµРґРµР»РµРЅС‹ РІ РєР»Р°СЃСЃРµ.
-     *
-     * 4. РџРѕРґСѓРјР°Р№С‚Рµ РЅР°Рґ С‚РµРј, РєР°РєРёРµ РјРµС‚РѕРґС‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕР±СЉСЏРІР»РµРЅС‹
-     *    РІ РєР»Р°СЃСЃРµ.
-     */
+    public Person() {
+        name = "";
+        address = new Address();
+        passport = new Passport();
+    }
+
+    public Person(String name, String surname, String patronymic, String secondName) {
+        this.name = name;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.secondName = secondName;
+        address = new Address();
+        passport = new Passport(name, surname, patronymic, secondName);
+    }
 
     /**
-     * Р’РѕР·РІСЂРІС‰Р°РµС‚ РїРѕР»РЅРѕРµ РёРјСЏ С‡РµР»РѕРІРµРєР°.
+     * Возврвщает полное имя человека.
      * <p>
-     * Р•СЃР»Рё Сѓ С‡РµР»РѕРІРµРєР° РµСЃС‚СЊ РРјСЏ, Р¤Р°РјРёР»РёСЏ Рё РћС‚С‡РµСЃС‚РІРѕ, С‚Рѕ
-     * РІРѕР·РІСЂР°С‰РµС‚ РРјСЏ, Р¤РёРјРёР»РёСЋ Рё РћС‚С‡РµСЃС‚РІРѕ, СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ РїСЂРѕР±РµР»РѕРј.
+     * Если у человека есть Имя, Фамилия и Отчество, то
+     * возвращет Имя, Фимилию и Отчество, разделённые пробелом.
      * <p>
-     * Р•СЃР»Рё Сѓ С‡РµР»РѕРІРµРєР° РЅРµС‚ РћС‚С‡РµСЃС‚РІР°, РЅРѕ РµСЃС‚СЊ РІС‚РѕСЂРѕРµ РёРјСЏ, С‚Рѕ
-     * РІРѕР·РІСЂР°С‰Р°РµС‚ РРјСЏ, РџРµСЂРІСѓСЋ Р±СѓРєРІСѓ РІС‚РѕСЂРѕРіРѕ РёРјРµРЅРё, Рё Р¤Р°РјРёР»РёСЋ,
-     * СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ РїСЂРѕР±РµР»РѕРј. РџРѕСЃР»Рµ РРЅРёС†РёР°Р»Р° РІС‚РѕСЂРѕРіРѕ РёРјРµРЅРё
-     * РґРѕР»Р¶РЅР° СЃС‚РѕСЏС‚СЊ С‚РѕС‡РєР°. РќР°РїСЂРёРјРµСЂ, "Р”Р¶РµСЂРѕРј Рљ. Р”Р¶РµСЂРѕРј".
+     * Если у человека нет Отчества, но есть второе имя, то
+     * возвращает Имя, Первую букву второго имени, и Фамилию,
+     * разделённые пробелом. После Инициала второго имени
+     * должна стоять точка. Например, "Джером К. Джером".
      * <p>
-     * Р•СЃР»Рё Сѓ С‡РµР»РѕРІРµРєР° РЅРµС‚ РЅРё РћС‚С‡РµСЃС‚РІР° РЅРё Р’С‚РѕСЂРѕРіРѕ РёРјРµРЅРё, Р°
-     * РµСЃС‚СЊ С‚РѕР»СЊРєРѕ РРјСЏ Рё Р¤Р°РјРёР»РёСЏ, С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµС‚ РёС…, СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ
-     * РїСЂРѕР±РµР»РѕРј.
+     * Если у человека нет ни Отчества ни Второго имени, а
+     * есть только Имя и Фамилия, то возвращает их, разделённые
+     * пробелом.
      *
-     * @return РёРјСЏ С‡РµР»РѕРІРµРєР° РІ РІРёРґРµ СЃС‚СЂРѕРєРё.
+     * @return имя человека в виде строки.
      */
     public String getFullName() {
-        /*
-         * TODO(РЎС‚СѓРґРµРЅС‚): Р—Р°РєРѕРЅС‡РёС‚СЊ РѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° 'getFullName()' РєР»Р°СЃСЃР° 'Person'
-         */
-        return null;
+        fullName = "";
+        if (name.length() > 0 && surname.length() > 0 && patronymic.length() > 0) {
+            fullName = name + " " + surname + " " + patronymic;
+        } else if (name.length() > 0 && secondName.length() > 0 && surname.length() > 0) {
+            fullName = name + " " + secondName.substring(0, 1) + ". " + surname;
+        } else fullName = name + " " + surname;
+        return fullName;
+    }
+
+    public void setFullName(String name, String surname, String  patronymic, String secondName) {
+        this.name = name;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.secondName = secondName;
     }
 
     /**
-     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р°РґСЂРµСЃ, РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РїСЂРѕР¶РёРІР°РµС‚ С‡РµР»РѕРІРµРє.
+     * Возвращает адрес, по которому проживает человек.
      * <p>
-     * Р’РѕР·РІСЂР°С‰Р°РµРјС‹Р№ Р°РґСЂРµСЃ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РјРµСЃС‚Сѓ РїРѕСЃС‚РѕСЏРЅРЅРѕР№
-     * СЂРµРіРёСЃС‚СЂР°С†РёРё С‡РµР»РѕРІРµРєР°, СЃРѕРіР»Р°СЃРЅРѕ РїР°СЃРїРѕСЂС‚РЅС‹Рј РґР°РЅРЅС‹Рј.
+     * Возвращаемый адрес соответствует месту постоянной
+     * регистрации человека, согласно паспортным данным.
      *
-     * @return Р°РґСЂРµСЃ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РІРёРґРµ СЃС‚СЂРѕРєРё.
+     * @return адрес регистрации в виде строки.
      */
+
     public String getAddress() {
-        /*
-         * TODO(РЎС‚СѓРґРµРЅС‚): Р—Р°РєРѕРЅС‡РёС‚СЊ РѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° 'getAddress()' РєР»Р°СЃСЃР° 'Person'
-         */
-        return null;
+        String addr = address.getIndex() + ", " + address.getCountry() + ", " + address.getCity() + ", "
+                + address.getStreet() + " " + address.getHouseNumber() + ", " + address.getFlatNumber();
+        if (addr.replaceAll(" ", "").replaceAll("0", "").replaceAll(",", "").length() == 0) return "Адрес не указан";
+        return addr;
     }
+
+    public void setAddress(int index, String country, String city, String street, int houseNumber, int flatNumber) {
+        address.setIndex(index);
+        address.setCountry(country);
+        address.setCity(city);
+        address.setStreet(street);
+        address.setHouseNumber(houseNumber);
+        address.setFlatNumber(flatNumber);
+    }
+
+    public String getPassport() {
+
+        String psprt = "\nДата рождения " + passport.getBirthDate() + " cерия " + passport.getSer() + " номер " + passport.getNumber() + " выдан " + passport.getPassportDate() +
+                " " + passport.getAuthorityPassport();
+        if (passport.getSer() == 0 || passport.getNumber() == 0) return "Паспорт не найден";
+        return psprt;
+    }
+
+    public void setPassport(int ser, int number, String passportDate, String authorityPassport,  String birthDate) {
+        passport.setSer(ser);
+        passport.setNumber(number);
+        passport.setBirthDate(birthDate);
+        passport.setAuthorityPassport(authorityPassport);
+        passport.setPassportDate(passportDate);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+
 }

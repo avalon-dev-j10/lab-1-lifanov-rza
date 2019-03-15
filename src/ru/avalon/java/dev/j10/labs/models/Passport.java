@@ -1,40 +1,147 @@
 package ru.avalon.java.dev.j10.labs.models;
 
+import java.util.Calendar;
+import java.util.Date;
+
+
+import ru.avalon.java.dev.j10.labs.commons.Address;
+import ru.avalon.java.dev.j10.labs.models.Person;
+
 /**
- * РџСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ Рѕ РїР°СЃРїРѕСЂС‚РЅС‹С… РґР°РЅРЅС‹С… С‡РµР»РѕРІРµРєР°.
+ * Представление о паспортных данных человека.
  * <p>
- * РџР°СЃРїРѕСЂС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ РґРѕР»Р¶РЅС‹ РІРєР»СЋС‡Р°С‚СЊ:
+ * Паспортные данные должны включать:
  * <ol>
- *  <li> СЃРµСЂРёСЋ Рё РЅРѕРјРµСЂ РґРѕРєСѓРјРµРЅС‚Р°;
- *  <li> РёРјСЏ;
- *  <li> С„Р°РјРёР»РёСЋ;
- *  <li> РѕС‚С‡РµСЃС‚РІРѕ;
- *  <li> РІС‚РѕСЂРѕРµ РёРјСЏ;
- *  <li> РґРµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ;
- *  <li> РґР°С‚Сѓ РІС‹РґР°С‡Рё;
- *  <li> РѕСЂРіР°РЅ, РІС‹РґР°РІС€РёР№ РґРѕРєСѓРјРµРЅС‚.
+ *  <li> серию и номер документа;
+ *  <li> имя;
+ *  <li> фамилию;
+ *  <li> отчество;
+ *  <li> второе имя;
+ *  <li> день рождения;
+ *  <li> дату выдачи;
+ *  <li> орган, выдавший документ.
  * </ol>
  */
 class Passport {
+    private int ser;
+    private int number;
+    private String name;
+    private String surname;
+    private String patronymic;
+    private String secondName;
+    private String birthDate;
+    private String passportDate;
+    private String authorityPassport;
+
+    Passport() {
+
+    }
+
+    Passport(int ser, int number, String birthDate, String passportDate, String authorityPassport) {
+        this.ser = ser;
+        this.number = number;
+        this.birthDate = birthDate;
+        this.passportDate = passportDate;
+        this.authorityPassport = authorityPassport;
+    }
+
+    Passport(String name, String surname, String patronymic, String secondName) {
+        this.name = name;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.secondName = secondName;
+    }
+
+    public int getSer() {
+        return ser;
+    }
+
+    public void setSer(int ser) {
+        this.ser = ser;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPassportDate() {
+        return passportDate;
+    }
+
+    public void setPassportDate(String passportDate) {
+        this.passportDate = passportDate;
+    }
+
+    public String getAuthorityPassport() {
+        return authorityPassport;
+    }
+
+    public void setAuthorityPassport(String authorityPassport) {
+        this.authorityPassport = authorityPassport;
+    }
 
     /*
-     * TODO(РЎС‚СѓРґРµРЅС‚): Р—Р°РєРѕРЅС‡РёС‚СЊ РѕРїСЂРµРґРµР»РµРЅРёРµ РєР»Р°СЃСЃР°.
+     * TODO(Студент): Закончить определение класса.
      *
-     * 1. РћР±СЉСЏРІРёС‚СЊ Р°С‚СЂРёР±СѓС‚С‹ РєР»Р°СЃСЃР°.
+     * 1. Объявить атрибуты класса.
      *
-     * 2. РћРїСЂРµРґРµР»РёС‚СЊ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР°. РџРѕРґСѓРјР°Р№С‚Рµ Рѕ
-     *    С‚РѕРј, РєР°РєРёРµ РјРµС‚РѕРґС‹ РґРѕР»Р¶РЅС‹ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РІ РєР»Р°СЃСЃРµ,
-     *    С‡С‚РѕР±С‹ РѕР±РµСЃРїРµС‡РёРІР°С‚СЊ РїРѕР»СѓС‡РµРЅРёРµ РІСЃРµР№ РЅРµРѕР±С…РѕРґРёРјРѕР№
-     *    РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРѕСЃС‚РѕСЏРЅРёРё РѕР±СЉРµРєС‚РѕРІ РґР°РЅРЅРѕРіРѕ РєР»Р°СЃСЃР°.
-     *    Р’СЃРµ Р»Рё РїРѕР»СЏ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ Р±СѓРґСѓС‚ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅС‹
-     *    РїСЂРё СЃРѕР·РґР°РЅРёРё СЌРєР·РµРјРїР»СЏСЂР°?
+     * 2. Определить необходимые методы класса. Подумайте о
+     *    том, какие методы должны существовать в классе,
+     *    чтобы обеспечивать получение всей необходимой
+     *    информации о состоянии объектов данного класса.
+     *    Все ли поля обязательно будут проинициализированы
+     *    при создании экземпляра?
      *
-     * 3. РЎРѕР·РґР°Р№С‚Рµ РІСЃРµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ РєР»Р°СЃСЃР°.
+     * 3. Создайте все необходимые конструкторы класса.
      *
-     * 4. РџРѕРјРЅРёС‚Рµ Рѕ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РїРµСЂРµРіСЂСѓР¶РµРЅРЅС‹С…
-     *    РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРѕРІ.
+     * 4. Помните о возможности существования перегруженных
+     *    конструкторов.
      *
-     * 5. РћР±РµСЃРїРµС‡С‚Рµ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РєР»Р°СЃСЃР° Р·Р°
-     *    РїСЂРµРґРµР»Р°РјРё РїР°РєРµС‚Р°.
+     * 5. Обеспечте возможность использования класса за
+     *    пределами пакета.
      */
 }
