@@ -1,33 +1,35 @@
 package ru.avalon.java.dev.j10.labs.models;
 
+import ru.avalon.java.dev.j10.labs.commons.Address;
+
 /**
  * Представление о человеке.
  * <p>
  * С точки зрения задания человек представляется как сущность,
  * наделённая:
  * <ol>
- *     <li>именем;
- *     <li>паспортными данными;
- *     <li>пропиской по месту жительства.
+ * <li>именем;
+ * <li>паспортными данными;
+ * <li>пропиской по месту жительства.
  * </ol>
  */
 public class Person {
+    private String fullName;
+    private Address address;
+    private Passport passport = new Passport();
 
-    /*
-     * TODO(Студент): Создайте класс Address.
-     *
-     * 1. Добавте файл в пакет ru.avalon.java.dev.j10.labs.commons.
-     *
-     * 2. Создайте класс, видимый из пакета. Подумайте о том
-     *    Какое имя должен иметь класс, если он объявленн в этом
-     *    файле.
-     *
-     * 3. Подумайте над тем, какие переменные должены быть
-     *    определены в классе.
-     *
-     * 4. Подумайте над тем, какие методы должны быть объявлены
-     *    в классе.
-     */
+    public Person() {
+        passport.setName("");
+        address = new Address();
+    }
+
+    public Person(String name, String surname, String patronymic, String secondName) {
+        passport.setName(name);
+        passport.setSurname(surname);
+        passport.setPatronymic(patronymic);
+        passport.setSecondName(secondName);
+        address = new Address();
+    }
 
     /**
      * Возврвщает полное имя человека.
@@ -47,10 +49,20 @@ public class Person {
      * @return имя человека в виде строки.
      */
     public String getFullName() {
-        /*
-         * TODO(Студент): Закончить определение метода 'getFullName()' класса 'Person'
-         */
-        return null;
+        fullName = "";
+        if (passport.getName().length() > 0 && passport.getSurname().length() > 0 && passport.getPatronymic().length() > 0) {
+            fullName = passport.getName() + " " + passport.getSurname() + " " + passport.getPatronymic();
+        } else if (passport.getName().length() > 0 && passport.getSecondName().length() > 0 && passport.getSurname().length() > 0) {
+            fullName = passport.getName() + " " + passport.getSecondName().substring(0, 1) + ". " + passport.getSurname();
+        } else fullName = passport.getName() + " " + passport.getSurname();
+        return fullName;
+    }
+
+    public void setFullName(String name, String surname, String  patronymic, String secondName) {
+        passport.setName(name);
+        passport.setSurname(surname);
+        passport.setPatronymic(patronymic);
+        passport.setSecondName(secondName);
     }
 
     /**
@@ -61,10 +73,37 @@ public class Person {
      *
      * @return адрес регистрации в виде строки.
      */
+
     public String getAddress() {
-        /*
-         * TODO(Студент): Закончить определение метода 'getAddress()' класса 'Person'
-         */
-        return null;
+        String addr = address.getIndex() + ", " + address.getCountry() + ", " + address.getCity() + ", "
+                + address.getStreet() + " " + address.getHouseNumber() + ", " + address.getFlatNumber();
+        if (addr.replaceAll(" ", "").replaceAll("0", "").replaceAll(",", "").length() == 0) return "Адрес не указан";
+        return addr;
     }
+
+    public void setAddress(int index, String country, String city, String street, int houseNumber, int flatNumber) {
+        address.setIndex(index);
+        address.setCountry(country);
+        address.setCity(city);
+        address.setStreet(street);
+        address.setHouseNumber(houseNumber);
+        address.setFlatNumber(flatNumber);
+    }
+
+    public String getPassport() {
+
+        String psprt = "\nДата рождения " + passport.getBirthDate() + " cерия " + passport.getSer() + " номер " + passport.getNumber() + " выдан " + passport.getPassportDate() +
+                " " + passport.getAuthorityPassport();
+        if (passport.getSer() == 0 || passport.getNumber() == 0) return "Паспорт не найден";
+        return psprt;
+    }
+
+    public void setPassport(int ser, int number, String passportDate, String authorityPassport,  String birthDate) {
+        passport.setSer(ser);
+        passport.setNumber(number);
+        passport.setBirthDate(birthDate);
+        passport.setAuthorityPassport(authorityPassport);
+        passport.setPassportDate(passportDate);
+    }
+    
 }
